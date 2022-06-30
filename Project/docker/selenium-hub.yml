@@ -1,0 +1,71 @@
+#This is docker-compose file which creates selenium hub, you can connect selenium python connectors to parse site
+version: "3.7"
+
+services:
+  hub:
+    image: selenium/hub
+    ports:
+      - 4444:4444
+      - 4443:4443
+      - 4442:4442
+    restart: always
+    environment:
+      GRID_MAX_SESSION: 16
+      GRID_BROWSER_TIMEOUT: 1000
+      GRID_TIMEOUT: 1000
+
+  chrome_worker_1:
+    image: selenium/node-chrome
+    depends_on:
+      - hub
+    environment:
+      SE_EVENT_BUS_HOST: hub
+      shm-size: "2g"
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+    volumes:
+      - /dev/shm:/dev/shm
+    links:
+      - hub
+
+  chrome_worker_2:
+    image: selenium/node-chrome
+    depends_on:
+      - hub
+    environment:
+      SE_EVENT_BUS_HOST: hub
+      shm-size: "2g"
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+    volumes:
+      - /dev/shm:/dev/shm
+    links:
+      - hub
+
+  chrome_worker_3:
+    image: selenium/node-chrome
+    depends_on:
+      - hub
+    environment:
+      SE_EVENT_BUS_HOST: hub
+      shm-size: "2g"
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+    volumes:
+      - /dev/shm:/dev/shm
+    links:
+      - hub
+
+  chrome_worker_4:
+    image: selenium/node-chrome
+    depends_on:
+      - hub
+    environment:
+      SE_EVENT_BUS_HOST: hub
+      shm-size: "2g"
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+    volumes:
+      - /dev/shm:/dev/shm
+    links:
+      - hub
